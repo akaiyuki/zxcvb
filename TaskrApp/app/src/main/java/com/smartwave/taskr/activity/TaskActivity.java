@@ -2,6 +2,8 @@ package com.smartwave.taskr.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +23,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.R;
+import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.TSingleton;
+import com.smartwave.taskr.object.TaskObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,6 +42,8 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
     private ArrayList<String> testData;
 
     public GoogleApiClient google_api_client;
+
+    private ArrayList<TaskObject> mResultSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,16 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
+        final DBHandler db = new DBHandler(this);
+
+        ImageView mImageSettings = (ImageView) toolbar.findViewById(R.id.settings);
+        mImageSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
         TextView mTextLogout = (TextView) toolbar.findViewById(R.id.logout);
         mTextLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +90,50 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
                     Log.d("sign out clicked", "clicked");
 
-
 //                TSingleton.setLogoutGmail("1");
+
+                db.removeAll();
 
                 startActivity(new Intent(TaskActivity.this, LoginActivity.class));
                 finish();
 
             }
         });
+
+
+
+
+
+
+//       if (!db.getAllTask().isEmpty()){
+//           db.removeAll();
+//           db.addTask(new TaskObject("Task 1", " Create database", "listed"));
+//           db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed"));
+//
+//       } else {
+//           // Inserting Shop/Rows
+//           Log.d("Insert: ", "Inserting ..");
+//           db.addTask(new TaskObject("Task 1", " Create database", "listed"));
+//           db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed"));
+//       }
+
+
+
+        // Reading all tasks
+        Log.d("Reading: ", "Reading all tasks..");
+        final List<TaskObject> tasks = db.getAllTask();
+
+        for (TaskObject taskObject : tasks) {
+            String log = "Id: " + taskObject.getId() + " ,TaskName: " + taskObject.getTaskName() + " ,TaskDescription: "
+                    + taskObject.getTaskDescription() + " ,TaskStatus: "
+                    + taskObject.getTaskStatus();
+            // Writing shops  to log
+            Log.d("Task: : ", log);
+
+            mResultSet.add(taskObject);
+
+        }
+
 
 
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
@@ -94,23 +146,43 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
         testData.add("3");
         testData.add("4");
 
-        adapter = new SwipeDeckAdapter(testData, this);
+        adapter = new SwipeDeckAdapter(mResultSet, this);
+        adapter.notifyDataSetChanged();
         cardStack.setAdapter(adapter);
+
 
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+
+                TaskObject taskObject = mResultSet.get(position);
+
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"backlogs");
+
+                Log.d("left", String.valueOf(taskObject.getTaskStatus()));
+
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+
+                TaskObject taskObject = mResultSet.get(position);
+
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"in progress");
+
+
+                Log.d("right", String.valueOf(taskObject.getTaskStatus()));
+
             }
 
             @Override
             public void cardsDepleted() {
                 Log.i("MainActivity", "no more cards");
+
+                startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
+
             }
 
             @Override
@@ -160,6 +232,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
         });
 
+
     }
 
     @Override
@@ -203,10 +276,12 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
     public class SwipeDeckAdapter extends BaseAdapter {
 
-        private List<String> data;
+//        private List<String> data;
         private Context context;
 
-        public SwipeDeckAdapter(List<String> data, Context context) {
+        private ArrayList<TaskObject> data = new ArrayList<>();
+
+        public SwipeDeckAdapter(ArrayList<TaskObject> data, Context context) {
             this.data = data;
             this.context = context;
         }
@@ -239,8 +314,8 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
             Picasso.with(context).load(R.drawable.taskerlogo).fit().centerCrop().into(imageView);
             TextView textView = (TextView) v.findViewById(R.id.sample_text);
-            final String item = (String)getItem(position);
-            textView.setText(item);
+//            final String item = (String)getItem(position);
+//            textView.setText(item);
 
 //            v.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -252,10 +327,15 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 //                }
 //            });
 
+            final TaskObject row = data.get(position);
+            textView.setText(row.getTaskName());
+
+
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("position_item", item);
+                    Log.d("position_item", row.getTaskName());
                     startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
                 }
             });

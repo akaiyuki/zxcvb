@@ -10,15 +10,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:gravity="right">
+        android:layout_marginRight="20dp">
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Log out"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            android:layout_alignParentRight="true"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/settingsicon"
+            android:id="@+id/settings"/>
+
     </RelativeLayout>
 
 

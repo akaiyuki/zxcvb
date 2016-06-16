@@ -24,11 +24,13 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.model.people.Person;
 import com.smartwave.taskr.core.BaseActivity;
+import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.Engine;
 import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.fragment.LoginFragment;
 import com.smartwave.taskr.R;
 import com.google.android.gms.plus.Plus;
+import com.smartwave.taskr.object.TaskObject;
 
 import java.io.InputStream;
 
@@ -228,6 +230,16 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
             resolveSignInError();
 
         }
+
+
+        //try
+        final DBHandler db = new DBHandler(this);
+        db.addTask(new TaskObject("Task 1", " Create database", "listed"));
+        db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed"));
+
+
+
+
     }
 
         /*

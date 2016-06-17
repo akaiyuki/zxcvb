@@ -236,7 +236,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         final DBHandler db = new DBHandler(this);
         db.addTask(new TaskObject("Task 1", " Create database", "listed"));
         db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed"));
-
+        db.addTask(new TaskObject("Task 3", "UI design", "listed"));
 
 
 

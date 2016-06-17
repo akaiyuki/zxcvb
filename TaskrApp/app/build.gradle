@@ -47,4 +47,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:8.4.0'
 
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
+
+    compile 'de.codecrafters.tableview:tableview:2.1.0'
 }

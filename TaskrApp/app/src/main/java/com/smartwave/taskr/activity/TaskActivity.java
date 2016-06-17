@@ -70,7 +70,9 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
         mImageSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
+                startActivity(new Intent(TaskActivity.this, SettingsActivity.class));
+
             }
         });
 

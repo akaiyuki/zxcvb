@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.smartwave.taskr.activity.UnfoldableDetailsActivity">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListView
         android:id="@+id/list_view"
@@ -75,9 +70,9 @@
 
     </LinearLayout>
 
-    <com.smartwave.taskr.foldlayout.UnfoldableView
+    <com.alexvasilkov.foldablelayout.UnfoldableView
         android:id="@+id/unfoldable_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    </RelativeLayout>
+</merge>

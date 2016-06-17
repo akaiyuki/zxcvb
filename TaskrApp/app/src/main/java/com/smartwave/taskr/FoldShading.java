@@ -1,4 +1,4 @@
-package com.smartwave.taskr.foldlayout;
+package com.smartwave.taskr;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import com.alexvasilkov.foldablelayout.shading.FoldShading;
 
+
 /**
  * Provides basic functionality for fold animation: splitting view into 2 parts,
  * synchronous rotation of both parts and so on.

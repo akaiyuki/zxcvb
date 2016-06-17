@@ -1,4 +1,4 @@
-package com.smartwave.taskr.foldlayout;
+package com.smartwave.taskr;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.Gravity;
 
-import com.smartwave.taskr.foldlayout.FoldShading;
+import com.smartwave.taskr.FoldShading;
 
 public class SimpleFoldShading implements FoldShading {
 

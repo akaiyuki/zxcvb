@@ -50,4 +50,5 @@ dependencies {
     compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
 
     compile 'de.codecrafters.tableview:tableview:2.1.0'
+    compile project(path: ':library')
 }

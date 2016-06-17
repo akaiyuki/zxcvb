@@ -8,9 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.Gravity;
 
-import com.smartwave.taskr.foldlayout.FoldShading;
 
-public class GlanceFoldShading implements FoldShading {
+public class GlanceFoldShading implements com.alexvasilkov.foldablelayout.shading.FoldShading {
 
     private static final int SHADOW_COLOR = Color.BLACK;
     private static final int SHADOW_MAX_ALPHA = 192;

@@ -8,4 +8,6 @@
 
     <color name="colorBackground">#FFFFFF</color>
 
+    <color name="colorHighlight">#E8EAF6</color>
+
 </resources>

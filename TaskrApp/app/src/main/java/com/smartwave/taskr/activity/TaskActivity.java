@@ -2,8 +2,6 @@ package com.smartwave.taskr.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +22,6 @@ import com.google.android.gms.plus.Plus;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.core.DBHandler;
-import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.object.TaskObject;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +68,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(TaskActivity.this, SettingsActivity.class));
+                startActivity(new Intent(TaskActivity.this, MainActivity.class));
 
             }
         });

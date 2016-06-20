@@ -27,8 +27,11 @@ import com.smartwave.taskr.R;
 import com.smartwave.taskr.activity.LoginActivity;
 import com.smartwave.taskr.activity.MainActivity;
 import com.smartwave.taskr.activity.UnfoldableDetailsActivity;
+import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.core.DBHandler;
+import com.smartwave.taskr.core.Engine;
+import com.smartwave.taskr.core.SharedPreferencesCore;
 import com.smartwave.taskr.design.SlidingTabLayout;
 import com.smartwave.taskr.dialog.DialogActivity;
 import com.smartwave.taskr.object.TaskObject;
@@ -109,6 +112,9 @@ public class TaskDetailsFragment extends Fragment {
         final List<TaskObject> tasks = db.getAllTask();
 
         mResultSet.clear();
+        mResultSetBacklog.clear();
+        mResultSetProgress.clear();
+        mResultSetFinish.clear();
 
         for (TaskObject taskObject : tasks) {
             String log = "Id: " + taskObject.getId() + " ,TaskName: " + taskObject.getTaskName() + " ,TaskDescription: "
@@ -256,7 +262,19 @@ public class TaskDetailsFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    startActivity(new Intent(getActivity(), UnfoldableDetailsActivity.class));
+
+                    TaskObject taskObject = (TaskObject) parent.getItemAtPosition(position);
+
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskname",taskObject.getTaskName());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskdesc", taskObject.getTaskDescription());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskstatus", taskObject.getTaskStatus());
+
+
+                    Log.d("clickedvalue", taskObject.getTaskName());
+
+                    Engine.switchFragment((BaseActivity) getActivity(), new TaskDescriptionFragment(), ((BaseActivity) getActivity()).getFrameLayout());
+
+
                 }
             });
 

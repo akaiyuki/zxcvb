@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.google.android.gms.plus.Plus;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.activity.LoginActivity;
 import com.smartwave.taskr.activity.MainActivity;
+import com.smartwave.taskr.activity.UnfoldableDetailsActivity;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.design.SlidingTabLayout;
@@ -101,26 +103,7 @@ public class TaskDetailsFragment extends Fragment {
         mImageSettings.setVisibility(View.GONE);
 
         TextView mTextLogout = (TextView) toolbar.findViewById(R.id.logout);
-        mTextLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LoginActivity.INSTANCE.is_signInBtn_clicked = false;
-
-                if (google_api_client.isConnected()) {
-                    Plus.AccountApi.clearDefaultAccount(google_api_client);
-                    google_api_client.disconnect();
-                    google_api_client.connect();
-                }
-
-                Log.d("sign out clicked", "clicked");
-
-                db.removeAll();
-
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
-            }
-        });
+        mTextLogout.setVisibility(View.GONE);
 
 
         final List<TaskObject> tasks = db.getAllTask();
@@ -268,6 +251,16 @@ public class TaskDetailsFragment extends Fragment {
 
                 mListViewTask.setAdapter(listAdapter);
             }
+
+            mListViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    startActivity(new Intent(getActivity(), UnfoldableDetailsActivity.class));
+                }
+            });
+
+
 
             // Return the View
             return view;

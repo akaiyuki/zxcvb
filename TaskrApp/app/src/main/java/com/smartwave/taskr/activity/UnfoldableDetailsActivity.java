@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.utils.Views;
+import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
-import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.R;
+import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.test.GlideHelper;
 import com.smartwave.taskr.test.Painting;
 import com.smartwave.taskr.test.PaintingsAdapter;
-import com.alexvasilkov.foldablelayout.UnfoldableView;
 
 public class UnfoldableDetailsActivity extends BaseActivity {
 
@@ -91,11 +91,11 @@ public class UnfoldableDetailsActivity extends BaseActivity {
         SpannableBuilder builder = new SpannableBuilder(this);
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append("2000").append(": ")
+                .append("2015")
                 .clearStyle()
                 .append(painting.getYear()).append("\n")
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append("PH").append(": ")
+                .append("ph")
                 .clearStyle()
                 .append(painting.getLocation());
         description.setText(builder.build());

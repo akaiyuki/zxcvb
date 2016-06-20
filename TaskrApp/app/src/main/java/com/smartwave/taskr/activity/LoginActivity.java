@@ -170,6 +170,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
         startActivity(new Intent(LoginActivity.this, TaskActivity.class));
 
+
     }
 
     @Override

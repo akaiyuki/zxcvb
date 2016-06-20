@@ -71,6 +71,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             public void onClick(View v) {
 
                 startActivity(new Intent(TaskActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.animate_right_to_left, R.anim.animate_fade_out);
 
             }
         });
@@ -80,7 +81,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             @Override
             public void onClick(View v) {
 
-                LoginActivity.INSTANCE.is_signInBtn_clicked = false;
+//                LoginActivity.INSTANCE.is_signInBtn_clicked = false;
 
                 if (google_api_client.isConnected()) {
                     Plus.AccountApi.clearDefaultAccount(google_api_client);
@@ -196,7 +197,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 //                );
 //                fragment.show(getSupportFragmentManager(), "blur_sample");
 
-                DialogActivity.showDialogMessage(TaskActivity.INSTANCE,"no cards");
+                DialogActivity.showDialogMessage(TaskActivity.this,"no cards");
 
 
 

@@ -1,22 +1,44 @@
 package com.smartwave.taskr.fragment;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.smartwave.taskr.R;
+import com.smartwave.taskr.activity.LoginActivity;
+import com.smartwave.taskr.activity.MainActivity;
+import com.smartwave.taskr.core.BaseActivity;
+import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.design.SlidingTabLayout;
+import com.smartwave.taskr.dialog.DialogActivity;
+import com.smartwave.taskr.object.TaskObject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.tvbarthel.lib.blurdialogfragment.BlurDialogEngine;
 
 
 /**
@@ -28,6 +50,14 @@ public class TaskDetailsFragment extends Fragment {
     protected String[] tabTitleList = {"BACKLOGS", "IN PROGRESS", "FINISHED"};
     private SamplePagerAdapter mPageAdapter;
     private ListView mListViewTask;
+    private ListAdapter listAdapter;
+    private ArrayList<TaskObject> mResultSet = new ArrayList<>();
+    private ArrayList<TaskObject> mResultSetProgress = new ArrayList<>();
+    private ArrayList<TaskObject> mResultSetFinish = new ArrayList<>();
+    private ArrayList<TaskObject> mResultSetBacklog = new ArrayList<>();
+
+    public GoogleApiClient google_api_client;
+
 
     public TaskDetailsFragment() {
         // Required empty public constructor
@@ -57,6 +87,73 @@ public class TaskDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_details, container, false);
+
+        final DBHandler db = new DBHandler(getActivity());
+
+         /* Initialize toolbar */
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.app_bar);
+        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+        ((BaseActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((BaseActivity) getActivity()).getSupportActionBar().setTitle("");
+
+        ImageView mImageSettings = (ImageView) toolbar.findViewById(R.id.settings);
+        mImageSettings.setVisibility(View.GONE);
+
+        TextView mTextLogout = (TextView) toolbar.findViewById(R.id.logout);
+        mTextLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LoginActivity.INSTANCE.is_signInBtn_clicked = false;
+
+                if (google_api_client.isConnected()) {
+                    Plus.AccountApi.clearDefaultAccount(google_api_client);
+                    google_api_client.disconnect();
+                    google_api_client.connect();
+                }
+
+                Log.d("sign out clicked", "clicked");
+
+                db.removeAll();
+
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
+
+
+        final List<TaskObject> tasks = db.getAllTask();
+
+        mResultSet.clear();
+
+        for (TaskObject taskObject : tasks) {
+            String log = "Id: " + taskObject.getId() + " ,TaskName: " + taskObject.getTaskName() + " ,TaskDescription: "
+                    + taskObject.getTaskDescription() + " ,TaskStatus: "
+                    + taskObject.getTaskStatus();
+            // Writing shops  to log
+            Log.d("Task: : ", log);
+
+
+            mResultSet.add(taskObject);
+
+            Log.d("resultset", String.valueOf(mResultSet.size()));
+
+        }
+
+
+        for (int i = 0; i<mResultSet.size(); i++){
+            TaskObject object = mResultSet.get(i);
+
+            if (object.getTaskStatus().equalsIgnoreCase("backlogs")){
+                mResultSetBacklog.add(object);
+            } else if (object.getTaskStatus().equalsIgnoreCase("in progress")){
+                mResultSetProgress.add(object);
+            } else {
+                mResultSetFinish.add(object);
+            }
+
+        }
 
 
 
@@ -155,8 +252,21 @@ public class TaskDetailsFragment extends Fragment {
 
 
             if (position == 0) {
+                listAdapter = new ListAdapter(getActivity(),R.layout.row_pager_item,mResultSetBacklog);
+                listAdapter.notifyDataSetChanged();
+
+                mListViewTask.setAdapter(listAdapter);
+
             } else if (position == 1) {
+                listAdapter = new ListAdapter(getActivity(),R.layout.row_pager_item,mResultSetProgress);
+                listAdapter.notifyDataSetChanged();
+
+                mListViewTask.setAdapter(listAdapter);
             } else if (position == 2) {
+                listAdapter = new ListAdapter(getActivity(),R.layout.row_pager_item,mResultSetFinish);
+                listAdapter.notifyDataSetChanged();
+
+                mListViewTask.setAdapter(listAdapter);
             }
 
             // Return the View
@@ -174,6 +284,106 @@ public class TaskDetailsFragment extends Fragment {
         }
 
     }
+
+
+
+
+
+    public class ListAdapter extends ArrayAdapter<TaskObject> {
+
+        Context mContext;
+        ArrayList<TaskObject> mData = new ArrayList<>();
+        int mResId;
+
+        public ListAdapter(Context context, int resource, ArrayList<TaskObject> data) {
+            super(context, resource, data);
+            this.mContext = context;
+            this.mResId = resource;
+            this.mData = data;
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public TaskObject getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ViewHolder holder;
+
+            if (convertView == null) {
+                //Inflate layout
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                convertView = inflater.inflate(mResId, null);
+                holder = new ViewHolder();
+
+                holder.text1 = (TextView) convertView.findViewById(R.id.textview);
+//                holder.text2 = (TextView) convertView.findViewById(R.id.progress);
+//                holder.text3 = (TextView) convertView.findViewById(R.id.finished);
+
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            final TaskObject taskObject = mData.get(position);
+
+            if (taskObject!=null){
+                holder.text1.setText(taskObject.getTaskName());
+            }
+
+
+
+
+//            final TaskObject row = mData.get(position);
+//
+//
+//            if (row.getTaskStatus().equalsIgnoreCase("backlogs")){
+//                holder.text1.setText(row.getTaskName());
+//                holder.text2.setText("");
+//                holder.text3.setText("");
+//            } else if (row.getTaskStatus().equalsIgnoreCase("in progress")){
+//                holder.text2.setText(row.getTaskName());
+//                holder.text1.setText("");
+//                holder.text3.setText("");
+//            } else {
+//                holder.text3.setText(row.getTaskName());
+//                holder.text2.setText("");
+//                holder.text1.setText("");
+//            }
+
+
+
+            return convertView;
+        }
+
+        class ViewHolder {
+            TextView text1;
+            TextView text2;
+            TextView text3;
+            TextView text4;
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 

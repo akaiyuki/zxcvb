@@ -22,6 +22,8 @@ import com.google.android.gms.plus.Plus;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.core.DBHandler;
+import com.smartwave.taskr.dialog.DialogActivity;
+import com.smartwave.taskr.dialog.SampleSupportDialogFragment;
 import com.smartwave.taskr.object.TaskObject;
 import com.squareup.picasso.Picasso;
 
@@ -180,7 +182,23 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             public void cardsDepleted() {
                 Log.i("MainActivity", "no more cards");
 
-                startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
+//                int number = 4;
+//                float floatNum = (float) ((4.0 / 10f) + 2);
+//
+//                SampleSupportDialogFragment fragment
+//                        = SampleSupportDialogFragment.newInstance(
+//                       8,
+//                        floatNum,
+//                        false,
+//                        false,
+//                        false,
+//                        false
+//                );
+//                fragment.show(getSupportFragmentManager(), "blur_sample");
+
+                DialogActivity.showDialogMessage(TaskActivity.INSTANCE,"no cards");
+
+
 
             }
 
@@ -311,7 +329,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
             //((TextView) v.findViewById(R.id.textView2)).setText(data.get(position));
             ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
-            Picasso.with(context).load(R.drawable.taskerlogo).fit().centerCrop().into(imageView);
+            Picasso.with(context).load(R.drawable.ticket_image).fit().centerCrop().into(imageView);
             TextView textView = (TextView) v.findViewById(R.id.sample_text);
 //            final String item = (String)getItem(position);
 //            textView.setText(item);
@@ -335,7 +353,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
                 @Override
                 public void onClick(View v) {
                     Log.d("position_item", row.getTaskName());
-                    startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
+//                    startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
                 }
             });
 

@@ -47,13 +47,16 @@ public class TaskDescriptionFragment extends Fragment {
         ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
         ((BaseActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((BaseActivity) getActivity()).getSupportActionBar().setTitle("");
+        ((BaseActivity) getActivity()).getSupportActionBar().setTitle("Task Details");
 
         ImageView mImageSettings = (ImageView) toolbar.findViewById(R.id.settings);
         mImageSettings.setVisibility(View.GONE);
 
         TextView mTextLogout = (TextView) toolbar.findViewById(R.id.logout);
         mTextLogout.setVisibility(View.GONE);
+
+        TextView mTextTitle = (TextView) toolbar.findViewById(R.id.titlename);
+        mTextTitle.setText("Task Details");
 
 
         final List<TaskObject> tasks = db.getAllTask();

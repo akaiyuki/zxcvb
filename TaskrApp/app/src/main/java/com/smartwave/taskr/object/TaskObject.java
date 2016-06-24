@@ -9,21 +9,44 @@ public class TaskObject {
     private String taskName;
     private String taskDescription;
     private String taskStatus;
+    private String taskProject;
+    private String taskDate;
 
     public TaskObject() {
     }
 
-    public TaskObject(int id, String taskName, String taskDescription, String taskStatus) {
+    public TaskObject(int id, String taskName, String taskDescription, String taskStatus, String taskProject, String taskDate) {
         this.id = id;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStatus = taskStatus;
+        this.taskProject = taskProject;
+        this.taskDate = taskDate;
     }
 
-    public TaskObject(String taskName, String taskDescription, String taskStatus) {
+    public TaskObject(String taskName, String taskDescription, String taskStatus, String taskProject, String taskDate) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStatus = taskStatus;
+        this.taskProject = taskProject;
+        this.taskDate = taskDate;
+    }
+
+    public String getTaskDate() {
+        return taskDate;
+    }
+
+    public void setTaskDate(String taskDate) {
+        this.taskDate = taskDate;
+    }
+
+    public String getTaskProject() {
+
+        return taskProject;
+    }
+
+    public void setTaskProject(String taskProject) {
+        this.taskProject = taskProject;
     }
 
     public String getTaskStatus() {

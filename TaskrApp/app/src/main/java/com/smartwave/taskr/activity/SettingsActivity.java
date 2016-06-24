@@ -50,6 +50,9 @@ public class SettingsActivity extends BaseActivity {
         ImageView mImageSettings = (ImageView) toolbar.findViewById(R.id.settings);
         mImageSettings.setVisibility(View.GONE);
 
+        TextView mTextTitle = (TextView) toolbar.findViewById(R.id.titlename);
+        mTextTitle.setText("Tasks List");
+
 
         final DBHandler db = new DBHandler(this);
 

@@ -108,6 +108,9 @@ public class TaskDetailsFragment extends Fragment {
         TextView mTextLogout = (TextView) toolbar.findViewById(R.id.logout);
         mTextLogout.setVisibility(View.GONE);
 
+        TextView mTextTitle = (TextView) toolbar.findViewById(R.id.titlename);
+        mTextTitle.setText("Tasks List");
+
 
         final List<TaskObject> tasks = db.getAllTask();
 

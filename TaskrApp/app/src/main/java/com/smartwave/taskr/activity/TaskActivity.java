@@ -44,6 +44,9 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
     private ArrayList<TaskObject> mResultSet = new ArrayList<>();
 
+    private SwipeDeck mTextProject;
+    private SwipeDeck mTextDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Task List");
 
         google_api_client =  new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -102,6 +105,9 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
         });
 
+        TextView mTextTitle = (TextView) toolbar.findViewById(R.id.titlename);
+        mTextTitle.setText("Tasks List");
+
 
 
 
@@ -128,7 +134,9 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
         for (TaskObject taskObject : tasks) {
             String log = "Id: " + taskObject.getId() + " ,TaskName: " + taskObject.getTaskName() + " ,TaskDescription: "
                     + taskObject.getTaskDescription() + " ,TaskStatus: "
-                    + taskObject.getTaskStatus();
+                    + taskObject.getTaskStatus() + " ,TaskProject: "
+                    + taskObject.getTaskProject() + " ,TaskDate: "
+                    + taskObject.getTaskDate();
             // Writing shops  to log
             Log.d("Task: : ", log);
 
@@ -140,6 +148,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
         cardStack.setHardwareAccelerationEnabled(true);
+
 
         testData = new ArrayList<>();
         testData.add("0");
@@ -160,7 +169,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
                 TaskObject taskObject = mResultSet.get(position);
 
-                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"backlogs");
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"backlogs",taskObject.getTaskProject(),taskObject.getTaskDate());
 
                 Log.d("left", String.valueOf(taskObject.getTaskStatus()));
 
@@ -172,7 +181,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
                 TaskObject taskObject = mResultSet.get(position);
 
-                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"in progress");
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"in progress",taskObject.getTaskProject(),taskObject.getTaskDate());
 
 
                 Log.d("right", String.valueOf(taskObject.getTaskStatus()));
@@ -214,8 +223,8 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
 
         });
-        cardStack.setLeftImage(R.id.left_image);
-        cardStack.setRightImage(R.id.right_image);
+//        cardStack.setLeftImage(R.id.left_image);
+//        cardStack.setRightImage(R.id.right_image);
 
         Button btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -329,9 +338,14 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
                 v = inflater.inflate(R.layout.test_card2, parent, false);
             }
             //((TextView) v.findViewById(R.id.textView2)).setText(data.get(position));
-            ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
-            Picasso.with(context).load(R.drawable.ticket_image).fit().centerCrop().into(imageView);
+//            ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
+//            Picasso.with(context).load(R.drawable.ticket_image).fit().centerCrop().into(imageView);
             TextView textView = (TextView) v.findViewById(R.id.sample_text);
+
+            TextView textProject = (TextView) v.findViewById(R.id.textproject);
+            TextView textDate = (TextView) v.findViewById(R.id.textdate);
+
+            TextView textDesc = (TextView) v.findViewById(R.id.textdescription);
 //            final String item = (String)getItem(position);
 //            textView.setText(item);
 
@@ -347,6 +361,11 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
             final TaskObject row = data.get(position);
             textView.setText(row.getTaskName());
+
+            textProject.setText(row.getTaskProject());
+            textDate.setText("Due Date: "+row.getTaskDate());
+
+            textDesc.setText(row.getTaskDescription());
 
 
 

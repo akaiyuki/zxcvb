@@ -27,6 +27,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_TASK_NAME = "task_name";
     private static final String KEY_TASK_DESCRIPTION = "task_description";
     private static final String KEY_TASK_STATUS = "task_status";
+    private static final String KEY_TASK_PROJECT = "task_project";
+    private static final String KEY_TASK_DATE = "task_date";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,7 +39,9 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TASKS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TASK_NAME + " TEXT,"
                 + KEY_TASK_DESCRIPTION + " TEXT,"
-                + KEY_TASK_STATUS + " TEXT" + ")";
+                + KEY_TASK_STATUS + " TEXT,"
+                + KEY_TASK_PROJECT + " TEXT,"
+                + KEY_TASK_DATE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -57,6 +61,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_TASK_NAME, taskObject.getTaskName()); // Shop Name
         values.put(KEY_TASK_DESCRIPTION, taskObject.getTaskDescription()); // Shop Phone Number
         values.put(KEY_TASK_STATUS, taskObject.getTaskStatus());
+        values.put(KEY_TASK_PROJECT, taskObject.getTaskProject());
+        values.put(KEY_TASK_DATE, taskObject.getTaskDate());
 
         // Inserting Row
         db.insert(TABLE_TASKS, null, values);
@@ -68,13 +74,13 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TASKS, new String[]{KEY_ID,
-                        KEY_TASK_NAME, KEY_TASK_DESCRIPTION, KEY_TASK_STATUS}, KEY_ID + "=?",
+                        KEY_TASK_NAME, KEY_TASK_DESCRIPTION, KEY_TASK_STATUS, KEY_TASK_PROJECT, KEY_TASK_DATE}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         TaskObject contact = new TaskObject(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return shop
         return contact;
     }
@@ -96,6 +102,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 taskObject.setTaskName(cursor.getString(1));
                 taskObject.setTaskDescription(cursor.getString(2));
                 taskObject.setTaskStatus(cursor.getString(3));
+                taskObject.setTaskProject(cursor.getString(4));
+                taskObject.setTaskDate(cursor.getString(5));
                 // Adding contact to list
                 shopList.add(taskObject);
             } while (cursor.moveToNext());
@@ -117,13 +125,15 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Updating a shop
-    public int updateTask(int id, String taskName, String taskDescription, String taskStatus) {
+    public int updateTask(int id, String taskName, String taskDescription, String taskStatus, String taskProject, String taskDate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_TASK_NAME, taskName);
         values.put(KEY_TASK_DESCRIPTION, taskDescription);
         values.put(KEY_TASK_STATUS, taskStatus);
+        values.put(KEY_TASK_PROJECT, taskProject);
+        values.put(KEY_TASK_DATE, taskDate);
 
         // updating row
         return db.update(TABLE_TASKS, values, KEY_ID + " = ?",

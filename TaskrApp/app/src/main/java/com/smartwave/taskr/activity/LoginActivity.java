@@ -203,7 +203,13 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     public void onConnectionFailed(@NonNull ConnectionResult result) {
 
         if (!result.hasResolution()) {
-            google_api_availability.getErrorDialog(this, result.getErrorCode(),request_code).show();
+//            google_api_availability.getErrorDialog(this, result.getErrorCode(),request_code).show();
+
+
+            if (google_api_availability != null){
+                google_api_availability.getErrorDialog(this, result.getErrorCode(),request_code).show();
+            }
+
             return;
         }
 
@@ -235,9 +241,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
         //try
         final DBHandler db = new DBHandler(this);
-        db.addTask(new TaskObject("Task 1", " Create database", "listed"));
-        db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed"));
-        db.addTask(new TaskObject("Task 3", "UI design", "listed"));
+        db.addTask(new TaskObject("Task 1", " Create database", "listed", "AV","12/12/2016"));
+        db.addTask(new TaskObject("Task 2", "Login with Gmail", "listed", "AV", "10/10/2016"));
+        db.addTask(new TaskObject("Task 3", "UI design", "listed", "AV", "09/12/2016"));
 
 
 

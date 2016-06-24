@@ -88,8 +88,8 @@ public class TaskDescriptionFragment extends Fragment {
 
 
 
-        mTextName.setText("Task: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskname"));
-        mTextDesc.setText("Description: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskdesc"));
+        mTextName.setText(SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskname"));
+        mTextDesc.setText(SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskdesc"));
         mTextStatus.setText("Status: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskstatus"));
 
 

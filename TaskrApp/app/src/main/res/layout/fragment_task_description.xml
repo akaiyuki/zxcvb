@@ -11,51 +11,49 @@
         layout="@layout/app_bar" />
 
     <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorHighlight"
         android:layout_below="@+id/app_bar"
-        android:id="@+id/relative"
-        >
+        android:background="@color/colorHighlight">
 
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/imglogo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/bluecircle"
             android:layout_marginLeft="15dp"
-            android:padding="8dp"/>
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/bluecircle" />
 
         <TextView
             android:id="@+id/textproject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text"
-            android:textSize="15sp"
             android:layout_toRightOf="@+id/imglogo"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:text="Text"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date"
-            android:textSize="15sp"
             android:layout_alignParentRight="true"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:text="Date"
+            android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/textstatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textstatus"
-            android:text="status"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/textdate"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/textdate"
             android:layout_marginBottom="10dp"
-            />
+            android:layout_marginRight="10dp"
+            android:text="status" />
 
 
     </RelativeLayout>
@@ -66,46 +64,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/relative">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:id="@+id/textname"
-        android:text="name"
-        android:padding="10dp"
-        android:textSize="17sp"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/textname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17sp" />
 
 
         <TextView
+            android:id="@+id/textdesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:id="@+id/textdesc"
-            android:text="desc"
-            android:padding="10dp"
             android:layout_below="@+id/textname"
             android:gravity="center_horizontal"
-            android:textSize="17sp"/>
+            android:padding="10dp"
+            android:text="desc"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17sp" />
 
 
         <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/colorPrimaryDark"-->
-            <!--android:id="@+id/textstatus"-->
-            <!--android:text="status"-->
-            <!--android:padding="10dp"-->
-            <!--android:layout_below="@+id/textdesc"-->
-            <!--/>-->
-
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/colorPrimaryDark"-->
+        <!--android:id="@+id/textstatus"-->
+        <!--android:text="status"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_below="@+id/textdesc"-->
+        <!--/>-->
 
 
     </RelativeLayout>
-
-
-
 
 
 </RelativeLayout>

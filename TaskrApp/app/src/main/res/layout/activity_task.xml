@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="swipe left"
+                android:text="swipe left to Backlog"
                 android:textColor="@color/colorText"
                 android:background="@drawable/button_background"/>
 
@@ -85,7 +85,7 @@
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="swipe right"
+                android:text="swipe right to In Progress"
                 android:textColor="@color/colorText"
                 android:background="@drawable/button_background"/>
 

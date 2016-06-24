@@ -83,13 +83,18 @@ public class TaskDescriptionFragment extends Fragment {
         TextView mTextDesc = (TextView) view.findViewById(R.id.textdesc);
         TextView mTextStatus = (TextView) view.findViewById(R.id.textstatus);
 
-
-        mTextName.setText("Task Name: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskname"));
-        mTextDesc.setText("Task Description: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskdesc"));
-        mTextStatus.setText("Task Status: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskstatus"));
+        TextView mTextDate = (TextView) view.findViewById(R.id.textdate);
+        TextView mTextProject = (TextView) view.findViewById(R.id.textproject);
 
 
 
+        mTextName.setText("Task: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskname"));
+        mTextDesc.setText("Description: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskdesc"));
+        mTextStatus.setText("Status: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(), "taskstatus"));
+
+
+        mTextDate.setText("Due Date: "+SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskdate"));
+        mTextProject.setText(SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"taskproject"));
 
 
 

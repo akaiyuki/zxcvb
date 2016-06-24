@@ -272,6 +272,8 @@ public class TaskDetailsFragment extends Fragment {
                     SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskdesc", taskObject.getTaskDescription());
                     SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskstatus", taskObject.getTaskStatus());
 
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskdate", taskObject.getTaskDate());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskproject", taskObject.getTaskProject());
 
                     Log.d("clickedvalue", taskObject.getTaskName());
 

@@ -202,7 +202,7 @@ public class TaskDescriptionFragment extends Fragment {
                     Log.d("clicked", "move to finished");
 
                     db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),"finished",
-                            TSingleton.getTaskProject(),TSingleton.getDueDate());
+                            TSingleton.getTaskProject(),TSingleton.getTaskDate());
 
                     break;
             }

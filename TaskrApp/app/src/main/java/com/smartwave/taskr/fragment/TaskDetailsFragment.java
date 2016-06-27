@@ -32,6 +32,7 @@ import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.Engine;
 import com.smartwave.taskr.core.SharedPreferencesCore;
+import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.design.SlidingTabLayout;
 import com.smartwave.taskr.dialog.DialogActivity;
 import com.smartwave.taskr.object.TaskObject;
@@ -276,6 +277,13 @@ public class TaskDetailsFragment extends Fragment {
                     SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskproject", taskObject.getTaskProject());
 
                     Log.d("clickedvalue", taskObject.getTaskName());
+
+                    TSingleton.setTaskName(taskObject.getTaskName());
+                    TSingleton.setTaskDesc(taskObject.getTaskDescription());
+                    TSingleton.setTaskStatus(taskObject.getTaskStatus());
+                    TSingleton.setTaskDate(taskObject.getTaskDate());
+                    TSingleton.setTaskProject(taskObject.getTaskProject());
+                    TSingleton.setTaskId(String.valueOf(taskObject.getId()));
 
                     Engine.switchFragment((BaseActivity) getActivity(), new TaskDescriptionFragment(), ((BaseActivity) getActivity()).getFrameLayout());
 

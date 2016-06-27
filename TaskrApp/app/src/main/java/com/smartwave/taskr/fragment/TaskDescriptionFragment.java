@@ -26,6 +26,8 @@ import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.SharedPreferencesCore;
+import com.smartwave.taskr.core.TSingleton;
+import com.smartwave.taskr.dialog.ChooseDateDialog;
 import com.smartwave.taskr.object.TaskObject;
 
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public class TaskDescriptionFragment extends Fragment {
 
     private FloatingActionButton fabEdit;
 
+    private TextView mTextDate;
+    private DBHandler db;
+
 
     public TaskDescriptionFragment() {
         // Required empty public constructor
@@ -62,7 +67,7 @@ public class TaskDescriptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_description, container, false);
 
-        final DBHandler db = new DBHandler(getActivity());
+        db = new DBHandler(getActivity());
 
          /* Initialize toolbar */
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.app_bar);
@@ -105,7 +110,7 @@ public class TaskDescriptionFragment extends Fragment {
         TextView mTextDesc = (TextView) view.findViewById(R.id.textdesc);
         TextView mTextStatus = (TextView) view.findViewById(R.id.textstatus);
 
-        TextView mTextDate = (TextView) view.findViewById(R.id.textdate);
+        mTextDate = (TextView) view.findViewById(R.id.textdate);
         TextView mTextProject = (TextView) view.findViewById(R.id.textproject);
 
 
@@ -185,9 +190,20 @@ public class TaskDescriptionFragment extends Fragment {
                     break;
                 case R.id.fab24:
                     Log.d("clicked", "due date");
+                    ChooseDateDialog datePicker = new ChooseDateDialog((BaseActivity) getActivity(), mTextDate, db);
+
+//                    db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),TSingleton.getTaskStatus(),
+//                            TSingleton.getTaskProject(),TSingleton.getDueDate());
+//
+
+
                     break;
                 case R.id.fab34:
                     Log.d("clicked", "move to finished");
+
+                    db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),"finished",
+                            TSingleton.getTaskProject(),TSingleton.getDueDate());
+
                     break;
             }
         }

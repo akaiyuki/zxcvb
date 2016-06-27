@@ -13,6 +13,15 @@ public class TSingleton {
     public static String taskProject;
     public static String taskId;
     public static String taskDate;
+    public static String taskEstimate;
+
+    public static String getTaskEstimate() {
+        return taskEstimate;
+    }
+
+    public static void setTaskEstimate(String taskEstimate) {
+        TSingleton.taskEstimate = taskEstimate;
+    }
 
     public static String getTaskDate() {
         return taskDate;

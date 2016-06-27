@@ -46,7 +46,7 @@ public class ChooseDateDialog implements DatePickerDialog.OnDateSetListener{
         TSingleton.setDueDate(date);
 
         dbHandler.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),TSingleton.getTaskStatus(),
-                TSingleton.getTaskProject(),date);
+                TSingleton.getTaskProject(),date,TSingleton.getTaskEstimate());
 
 
 

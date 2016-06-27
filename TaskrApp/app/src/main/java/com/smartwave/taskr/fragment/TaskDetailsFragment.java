@@ -284,6 +284,7 @@ public class TaskDetailsFragment extends Fragment {
                     TSingleton.setTaskDate(taskObject.getTaskDate());
                     TSingleton.setTaskProject(taskObject.getTaskProject());
                     TSingleton.setTaskId(String.valueOf(taskObject.getId()));
+                    TSingleton.setTaskEstimate(taskObject.getTaskEstimate());
 
                     Engine.switchFragment((BaseActivity) getActivity(), new TaskDescriptionFragment(), ((BaseActivity) getActivity()).getFrameLayout());
 

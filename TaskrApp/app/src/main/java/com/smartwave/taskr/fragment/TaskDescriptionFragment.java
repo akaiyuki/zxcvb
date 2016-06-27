@@ -5,6 +5,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,8 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.SharedPreferencesCore;
 import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.dialog.ChooseDateDialog;
+import com.smartwave.taskr.dialog.DialogActivity;
 import com.smartwave.taskr.object.TaskObject;
 
 import java.util.ArrayList;
@@ -54,6 +60,7 @@ public class TaskDescriptionFragment extends Fragment {
 
     private TextView mTextDate;
     private DBHandler db;
+    private TextView mTextEstimate;
 
 
     public TaskDescriptionFragment() {
@@ -132,6 +139,8 @@ public class TaskDescriptionFragment extends Fragment {
         fab2 = (FloatingActionButton) view.findViewById(R.id.fab24);
         fab3 = (FloatingActionButton) view.findViewById(R.id.fab34);
 
+        mTextEstimate = (TextView) view.findViewById(R.id.textestimate);
+        mTextEstimate.setText("Estimate: "+TSingleton.getTaskEstimate()+" mins.");
 
 
         return view;
@@ -187,6 +196,11 @@ public class TaskDescriptionFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.fab14:
                     Log.d("clicked", "set estimate");
+
+//                    DialogActivity.showDialogEstimate((BaseActivity) getActivity());
+
+                    showDialogEstimate();
+
                     break;
                 case R.id.fab24:
                     Log.d("clicked", "due date");
@@ -202,7 +216,7 @@ public class TaskDescriptionFragment extends Fragment {
                     Log.d("clicked", "move to finished");
 
                     db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),"finished",
-                            TSingleton.getTaskProject(),TSingleton.getTaskDate());
+                            TSingleton.getTaskProject(),TSingleton.getTaskDate(),TSingleton.getTaskEstimate());
 
                     break;
             }
@@ -210,6 +224,40 @@ public class TaskDescriptionFragment extends Fragment {
     };
 
 
+
+    private void showDialogEstimate(){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_estimate);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        final EditText mEditText = (EditText) dialog.findViewById(R.id.edit_estimate);
+
+
+
+        LinearLayout mButtonDone = (LinearLayout) dialog.findViewById(R.id.button_ok);
+        mButtonDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mEditText.getText().length() != 0){
+                    TSingleton.setTaskEstimate(String.valueOf(mEditText.getText()));
+                }
+
+                mTextEstimate.setText("Estimate: "+mEditText.getText().toString()+" mins.");
+
+                db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),TSingleton.getTaskStatus(),
+                        TSingleton.getTaskProject(),TSingleton.getTaskDate(),TSingleton.getTaskEstimate());
+
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.show();
+    }
 
 
 

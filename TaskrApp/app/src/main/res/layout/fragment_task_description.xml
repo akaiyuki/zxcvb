@@ -37,6 +37,18 @@
             android:text="Text"
             android:textSize="15sp" />
 
+
+        <TextView
+            android:id="@+id/textestimate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimate"
+            android:layout_marginLeft="25dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/imglogo"/>
+
+
+
         <TextView
             android:id="@+id/textdate"
             android:layout_width="wrap_content"

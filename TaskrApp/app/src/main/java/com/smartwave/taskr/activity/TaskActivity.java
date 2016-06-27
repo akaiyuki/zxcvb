@@ -136,7 +136,8 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
                     + taskObject.getTaskDescription() + " ,TaskStatus: "
                     + taskObject.getTaskStatus() + " ,TaskProject: "
                     + taskObject.getTaskProject() + " ,TaskDate: "
-                    + taskObject.getTaskDate();
+                    + taskObject.getTaskDate() + " ,TaskEstimate: "
+                    + taskObject.getTaskEstimate();
             // Writing shops  to log
             Log.d("Task: : ", log);
 
@@ -169,7 +170,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
                 TaskObject taskObject = mResultSet.get(position);
 
-                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"backlogs",taskObject.getTaskProject(),taskObject.getTaskDate());
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"backlogs",taskObject.getTaskProject(),taskObject.getTaskDate(),taskObject.getTaskEstimate());
 
                 Log.d("left", String.valueOf(taskObject.getTaskStatus()));
 
@@ -181,7 +182,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
                 TaskObject taskObject = mResultSet.get(position);
 
-                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"in progress",taskObject.getTaskProject(),taskObject.getTaskDate());
+                db.updateTask(taskObject.getId(),taskObject.getTaskName(),taskObject.getTaskDescription(),"in progress",taskObject.getTaskProject(),taskObject.getTaskDate(),taskObject.getTaskEstimate());
 
 
                 Log.d("right", String.valueOf(taskObject.getTaskStatus()));

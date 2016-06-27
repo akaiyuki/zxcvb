@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground"
     tools:context="com.smartwave.taskr.fragment.TaskDescriptionFragment">
 
@@ -100,6 +101,50 @@
 
 
     </RelativeLayout>
+
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        fab:menu_fab_size="mini"
+        fab:menu_colorNormal="#1565C0"
+        fab:menu_colorPressed="#2272CD"
+        fab:menu_colorRipple="#62B2FF">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            style="@style/MenuButtonsSmall"
+            fab:fab_label="Set Estimate"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            style="@style/MenuButtonsSmall"
+            fab:fab_label="Change Due Date" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            style="@style/MenuButtonsSmall"
+            fab:fab_label="Move to Finished"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 
 
 </RelativeLayout>

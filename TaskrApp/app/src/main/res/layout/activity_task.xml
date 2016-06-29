@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@drawable/button_background"
-                    android:text="swipe left to Backlog"
+                    android:text="Move to Backlog"
                     android:textColor="@color/colorText" />
 
             </LinearLayout>
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background"
-                    android:text="swipe right to In Progress"
+                    android:text="Move to In Progress"
                     android:textColor="@color/colorText" />
 
             </LinearLayout>

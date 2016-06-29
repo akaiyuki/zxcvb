@@ -19,11 +19,16 @@ import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.core.DBHandler;
+import com.smartwave.taskr.core.Engine;
+import com.smartwave.taskr.core.SharedPreferencesCore;
+import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.dialog.DialogActivity;
 import com.smartwave.taskr.dialog.SampleSupportDialogFragment;
+import com.smartwave.taskr.fragment.TaskDescriptionFragment;
 import com.smartwave.taskr.object.TaskObject;
 import com.squareup.picasso.Picasso;
 
@@ -73,7 +78,13 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(TaskActivity.this, MainActivity.class));
+//                startActivity(new Intent(TaskActivity.this, MainActivity.class));
+
+                Intent intent = new Intent(TaskActivity.this, MainActivity.class);
+                intent.putExtra("goto", "task_details");
+                startActivity(intent);
+
+
                 overridePendingTransition(R.anim.animate_right_to_left, R.anim.animate_fade_out);
 
             }
@@ -107,11 +118,6 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         TextView mTextTitle = (TextView) toolbar.findViewById(R.id.titlename);
         mTextTitle.setText("Tasks List");
-
-
-
-
-
 
 //       if (!db.getAllTask().isEmpty()){
 //           db.removeAll();
@@ -224,8 +230,8 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
 
         });
-//        cardStack.setLeftImage(R.id.left_image);
-//        cardStack.setRightImage(R.id.right_image);
+        cardStack.setLeftImage(R.id.left_image);
+        cardStack.setRightImage(R.id.right_image);
 
         Button btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -374,7 +380,27 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
                 @Override
                 public void onClick(View v) {
                     Log.d("position_item", row.getTaskName());
-//                    startActivity(new Intent(TaskActivity.this, UnfoldableDetailsActivity.class));
+
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskname",row.getTaskName());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskdesc", row.getTaskDescription());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskstatus", "");
+
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskdate", row.getTaskDate());
+                    SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"taskproject", row.getTaskProject());
+
+
+                    TSingleton.setTaskName(row.getTaskName());
+                    TSingleton.setTaskDesc(row.getTaskDescription());
+                    TSingleton.setTaskStatus("");
+                    TSingleton.setTaskDate(row.getTaskDate());
+                    TSingleton.setTaskProject(row.getTaskProject());
+                    TSingleton.setTaskId(String.valueOf(row.getId()));
+                    TSingleton.setTaskEstimate("");
+
+                    Intent intent = new Intent(TaskActivity.this, MainActivity.class);
+                    intent.putExtra("goto","task_description");
+                    startActivity(intent);
+
                 }
             });
 

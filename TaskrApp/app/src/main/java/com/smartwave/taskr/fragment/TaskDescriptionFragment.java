@@ -5,7 +5,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +33,13 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
+import com.smartwave.taskr.core.DBComment;
 import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.SharedPreferencesCore;
 import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.dialog.ChooseDateDialog;
 import com.smartwave.taskr.dialog.DialogActivity;
+import com.smartwave.taskr.object.CommentObject;
 import com.smartwave.taskr.object.TaskObject;
 
 import java.util.ArrayList;
@@ -51,6 +57,7 @@ public class TaskDescriptionFragment extends Fragment {
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
+    private FloatingActionButton fab4;
 
 
     private List<FloatingActionMenu> menus = new ArrayList<>();
@@ -61,6 +68,11 @@ public class TaskDescriptionFragment extends Fragment {
     private TextView mTextDate;
     private DBHandler db;
     private TextView mTextEstimate;
+
+    private ArrayList<CommentObject> mResultComment = new ArrayList<>();
+
+    private ListView mListView;
+    private CommentAdapter commentAdapter;
 
 
     public TaskDescriptionFragment() {
@@ -138,9 +150,28 @@ public class TaskDescriptionFragment extends Fragment {
         fab1 = (FloatingActionButton) view.findViewById(R.id.fab14);
         fab2 = (FloatingActionButton) view.findViewById(R.id.fab24);
         fab3 = (FloatingActionButton) view.findViewById(R.id.fab34);
+        fab4 = (FloatingActionButton) view.findViewById(R.id.fab35);
 
         mTextEstimate = (TextView) view.findViewById(R.id.textestimate);
         mTextEstimate.setText("Estimate: "+TSingleton.getTaskEstimate()+" mins.");
+
+
+        // Reading comments database
+        if (mResultComment.isEmpty()){
+            final DBComment db = new DBComment(getActivity());
+            final List<CommentObject> comments = db.getAllTask();
+
+            for (CommentObject taskObject : comments) {
+                String log = "Id: " + taskObject.getTaskId() + " ,CommentName: " + taskObject.getTaskComment();
+                Log.d("Comment: : ", log);
+                mResultComment.add(taskObject);
+            }
+        }
+
+        mListView = (ListView) view.findViewById(R.id.listview);
+        commentAdapter = new CommentAdapter(getActivity(), R.layout.row_pager_item, mResultComment);
+        mListView.setAdapter(commentAdapter);
+
 
 
         return view;
@@ -156,6 +187,7 @@ public class TaskDescriptionFragment extends Fragment {
         fab1.setOnClickListener(clickListener);
         fab2.setOnClickListener(clickListener);
         fab3.setOnClickListener(clickListener);
+        fab4.setOnClickListener(clickListener);
 
         int delay = 400;
         for (final FloatingActionMenu menu : menus) {
@@ -197,20 +229,11 @@ public class TaskDescriptionFragment extends Fragment {
                 case R.id.fab14:
                     Log.d("clicked", "set estimate");
 
-//                    DialogActivity.showDialogEstimate((BaseActivity) getActivity());
-
                     showDialogEstimate();
-
                     break;
                 case R.id.fab24:
                     Log.d("clicked", "due date");
                     ChooseDateDialog datePicker = new ChooseDateDialog((BaseActivity) getActivity(), mTextDate, db);
-
-//                    db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),TSingleton.getTaskStatus(),
-//                            TSingleton.getTaskProject(),TSingleton.getDueDate());
-//
-
-
                     break;
                 case R.id.fab34:
                     Log.d("clicked", "move to finished");
@@ -218,6 +241,11 @@ public class TaskDescriptionFragment extends Fragment {
                     db.updateTask(Integer.parseInt(TSingleton.getTaskId()),TSingleton.getTaskName(),TSingleton.getTaskDesc(),"finished",
                             TSingleton.getTaskProject(),TSingleton.getTaskDate(),TSingleton.getTaskEstimate());
 
+                    break;
+
+                case R.id.fab35:
+                    Log.d("clicked", "add comment");
+                    showDialogComment();
                     break;
             }
         }
@@ -232,8 +260,6 @@ public class TaskDescriptionFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         final EditText mEditText = (EditText) dialog.findViewById(R.id.edit_estimate);
-
-
 
         LinearLayout mButtonDone = (LinearLayout) dialog.findViewById(R.id.button_ok);
         mButtonDone.setOnClickListener(new View.OnClickListener() {
@@ -258,6 +284,104 @@ public class TaskDescriptionFragment extends Fragment {
 
         dialog.show();
     }
+
+    private void showDialogComment(){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_comment);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        final EditText mEditText = (EditText) dialog.findViewById(R.id.edit_comment);
+
+        LinearLayout mButtonDone = (LinearLayout) dialog.findViewById(R.id.button_ok);
+        mButtonDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mEditText.getText().length() != 0){
+
+                    final DBComment db = new DBComment(getActivity());
+                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditText.getText().toString()));
+
+                    final List<CommentObject> tasks = db.getAllTask();
+
+                    for (CommentObject taskObject : tasks) {
+                        String log = "Id: " + taskObject.getTaskId() + " ,CommentName: " + taskObject.getTaskComment();
+                        // Writing shops  to log
+                        Log.d("Comment from add edit: ", log);
+
+                        mResultComment.add(taskObject);
+                    }
+
+                }
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    public class CommentAdapter extends ArrayAdapter<CommentObject> {
+
+        Context mContext;
+        int mResId;
+        ArrayList<CommentObject> mResultSet = new ArrayList<>();
+
+        class ViewHolder{
+            TextView name;
+            TextView address;
+            ImageView image;
+        }
+
+        public CommentAdapter(Context context, int resource, ArrayList<CommentObject> data) {
+            super(context, resource, data);
+            this.mContext = context;
+            this.mResId = resource;
+            this.mResultSet = data;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder;
+
+            if (convertView == null)
+            {
+                //Inflate layout
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                convertView = inflater.inflate(mResId, null);
+                holder = new ViewHolder();
+
+                holder.name = (TextView) convertView.findViewById(R.id.textview);
+                holder.image = (ImageView) convertView.findViewById(R.id.tasklogo);
+
+                convertView.setTag(holder);
+            }
+            else { holder = (ViewHolder) convertView.getTag(); }
+
+            final CommentObject comment = mResultSet.get(position);
+
+            if (TSingleton.getTaskId().equalsIgnoreCase(comment.getTaskId())){
+                holder.name.setText(comment.getTaskComment());
+            } else {
+                holder.name.setText("");
+                holder.image.setVisibility(View.GONE);
+            }
+
+
+
+
+            return convertView;
+        }
+    }
+
+
+
+
 
 
 

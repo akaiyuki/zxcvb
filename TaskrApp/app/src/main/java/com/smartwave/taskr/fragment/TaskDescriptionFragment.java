@@ -70,6 +70,7 @@ public class TaskDescriptionFragment extends Fragment {
     private TextView mTextEstimate;
 
     private ArrayList<CommentObject> mResultComment = new ArrayList<>();
+    
 
     private ListView mListView;
     private CommentAdapter commentAdapter;

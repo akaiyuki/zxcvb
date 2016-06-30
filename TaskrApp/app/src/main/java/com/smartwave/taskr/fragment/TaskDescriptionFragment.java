@@ -70,7 +70,8 @@ public class TaskDescriptionFragment extends Fragment {
     private TextView mTextEstimate;
 
     private ArrayList<CommentObject> mResultComment = new ArrayList<>();
-    
+
+
 
     private ListView mListView;
     private CommentAdapter commentAdapter;
@@ -165,7 +166,12 @@ public class TaskDescriptionFragment extends Fragment {
             for (CommentObject taskObject : comments) {
                 String log = "Id: " + taskObject.getTaskId() + " ,CommentName: " + taskObject.getTaskComment();
                 Log.d("Comment: : ", log);
-                mResultComment.add(taskObject);
+
+                if (TSingleton.getTaskId().equalsIgnoreCase(taskObject.getTaskId())){
+                    mResultComment.add(taskObject);
+                }
+
+//                mResultComment.add(taskObject);
             }
         }
 
@@ -368,7 +374,8 @@ public class TaskDescriptionFragment extends Fragment {
 
             if (TSingleton.getTaskId().equalsIgnoreCase(comment.getTaskId())){
                 holder.name.setText(comment.getTaskComment());
-            } else {
+            }
+            else {
                 holder.name.setText("");
                 holder.image.setVisibility(View.GONE);
             }

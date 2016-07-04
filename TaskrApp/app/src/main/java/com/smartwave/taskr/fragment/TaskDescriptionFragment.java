@@ -42,7 +42,9 @@ import com.smartwave.taskr.dialog.DialogActivity;
 import com.smartwave.taskr.object.CommentObject;
 import com.smartwave.taskr.object.TaskObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -176,7 +178,7 @@ public class TaskDescriptionFragment extends Fragment {
         }
 
         mListView = (ListView) view.findViewById(R.id.listview);
-        commentAdapter = new CommentAdapter(getActivity(), R.layout.row_pager_item, mResultComment);
+        commentAdapter = new CommentAdapter(getActivity(), R.layout.custom_row_comment, mResultComment);
         mListView.setAdapter(commentAdapter);
 
 
@@ -307,8 +309,14 @@ public class TaskDescriptionFragment extends Fragment {
 
                 if (mEditText.getText().length() != 0){
 
+                    Calendar c = Calendar.getInstance();
+
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                    String formattedDate = df.format(c.getTime());
+
+
                     final DBComment db = new DBComment(getActivity());
-                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditText.getText().toString()));
+                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditText.getText().toString(), "Trisha", formattedDate));
 
                     final List<CommentObject> tasks = db.getAllTask();
 
@@ -340,7 +348,8 @@ public class TaskDescriptionFragment extends Fragment {
 
         class ViewHolder{
             TextView name;
-            TextView address;
+            TextView txtCommentName;
+            TextView txtDate;
             ImageView image;
         }
 
@@ -365,6 +374,9 @@ public class TaskDescriptionFragment extends Fragment {
 
                 holder.name = (TextView) convertView.findViewById(R.id.textview);
                 holder.image = (ImageView) convertView.findViewById(R.id.tasklogo);
+                holder.txtCommentName = (TextView) convertView.findViewById(R.id.txtname);
+                holder.txtDate = (TextView) convertView.findViewById(R.id.txtdate);
+
 
                 convertView.setTag(holder);
             }
@@ -374,6 +386,8 @@ public class TaskDescriptionFragment extends Fragment {
 
             if (TSingleton.getTaskId().equalsIgnoreCase(comment.getTaskId())){
                 holder.name.setText(comment.getTaskComment());
+                holder.txtCommentName.setText(comment.getTaskName());
+                holder.txtDate.setText(comment.getCommentDate());
             }
             else {
                 holder.name.setText("");

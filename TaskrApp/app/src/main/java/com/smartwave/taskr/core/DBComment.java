@@ -30,6 +30,8 @@ public class DBComment extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_TASK_ID = "task_id";
     private static final String KEY_TASK_COMMENT = "task_comment";
+    private static final String KEY_TASK_NAME = "task_name";
+    private static final String KEY_TASK_DATE = "task_date";
 
     public DBComment(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,7 +41,9 @@ public class DBComment extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TASKS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TASK_ID + " TEXT,"
-                + KEY_TASK_COMMENT + " TEXT" + ")";
+                + KEY_TASK_COMMENT + " TEXT,"
+                + KEY_TASK_NAME + " TEXT,"
+                + KEY_TASK_DATE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -58,6 +62,8 @@ public class DBComment extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TASK_ID, commentObject.getTaskId());
         values.put(KEY_TASK_COMMENT, commentObject.getTaskComment());
+        values.put(KEY_TASK_NAME, commentObject.getTaskName());
+        values.put(KEY_TASK_DATE, commentObject.getCommentDate());
 
         // Inserting Row
         db.insert(TABLE_TASKS, null, values);
@@ -69,13 +75,13 @@ public class DBComment extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TASKS, new String[]{KEY_ID,
-                        KEY_TASK_ID, KEY_TASK_COMMENT}, KEY_ID + "=?",
+                        KEY_TASK_ID, KEY_TASK_COMMENT, KEY_TASK_NAME, KEY_TASK_DATE}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         CommentObject contact = new CommentObject(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
         // return shop
         return contact;
     }
@@ -96,6 +102,8 @@ public class DBComment extends SQLiteOpenHelper {
                 taskObject.setId(Integer.parseInt(cursor.getString(0)));
                 taskObject.setTaskId(cursor.getString(1));
                 taskObject.setTaskComment(cursor.getString(2));
+                taskObject.setTaskName(cursor.getString(3));
+                taskObject.setCommentDate(cursor.getString(4));
                 // Adding contact to list
                 shopList.add(taskObject);
             } while (cursor.moveToNext());
@@ -117,12 +125,14 @@ public class DBComment extends SQLiteOpenHelper {
     }
 
     // Updating a shop
-    public int updateTask(int id, String taskId, String taskComment) {
+    public int updateTask(int id, String taskId, String taskComment, String taskName, String taskDate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_TASK_ID, taskId);
         values.put(KEY_TASK_COMMENT, taskComment);
+        values.put(KEY_TASK_NAME, taskName);
+        values.put(KEY_TASK_DATE, taskDate);
 
         // updating row
         return db.update(TABLE_TASKS, values, KEY_ID + " = ?",

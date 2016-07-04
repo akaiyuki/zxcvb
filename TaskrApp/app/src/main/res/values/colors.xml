@@ -10,4 +10,6 @@
 
     <color name="colorHighlight">#dbdcde</color>
 
+    <color name="colorCommentBackground">#f4f0f0</color>
+
 </resources>

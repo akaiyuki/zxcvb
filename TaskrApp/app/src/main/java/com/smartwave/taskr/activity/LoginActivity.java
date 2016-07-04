@@ -114,6 +114,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 .addApi(Plus.API,Plus.PlusOptions.builder().build())
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
+
     }
 
     private void setBtnClickListeners(){
@@ -164,7 +165,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     public void onConnected(@Nullable Bundle bundle) {
         is_signInBtn_clicked = false;
         // Get user's information and set it into the layout
-//        getProfileInfo();
+        getProfileInfo();
         // Update the UI after signin
 //        changeUI(true);
 
@@ -264,6 +265,21 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 google_api_client.connect();
             }
         }
+
+//        if (connection_result == null){
+//            Log.d("connection_result", "null");
+//                is_intent_inprogress = false;
+//                google_api_client.connect();
+//        } else{
+//            Log.d("connection_result", "not null");
+//                is_intent_inprogress = true;
+//            try {
+//                connection_result.startResolutionForResult(this, SIGN_IN_CODE);
+//            } catch (IntentSender.SendIntentException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
     }
 
     /*
@@ -333,19 +349,22 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         String personName = currentPerson.getDisplayName();
         String personPhotoUrl = currentPerson.getImage().getUrl();
         String email = Plus.AccountApi.getAccountName(google_api_client);
-        TextView   user_name = (TextView) findViewById(R.id.userName);
-        user_name.setText("Name: "+personName);
-        TextView gemail_id = (TextView)findViewById(R.id.emailId);
-        gemail_id.setText("Email Id: " +email);
-        TextView dob = (TextView)findViewById(R.id.dob);
-        dob.setText("DOB: "+currentPerson.getBirthday());
-        TextView tag_line = (TextView)findViewById(R.id.tag_line);
-        tag_line.setText("Tag Line: " +currentPerson.getTagline());
-        TextView about_me = (TextView)findViewById(R.id.about_me);
-        about_me.setText("About Me: "+currentPerson.getAboutMe());
-        setProfilePic(personPhotoUrl);
-        progress_dialog.dismiss();
-        Toast.makeText(this, "Person information is shown!", Toast.LENGTH_LONG).show();
+//        TextView   user_name = (TextView) findViewById(R.id.userName);
+//        user_name.setText("Name: "+personName);
+//        TextView gemail_id = (TextView)findViewById(R.id.emailId);
+//        gemail_id.setText("Email Id: " +email);
+//        TextView dob = (TextView)findViewById(R.id.dob);
+//        dob.setText("DOB: "+currentPerson.getBirthday());
+//        TextView tag_line = (TextView)findViewById(R.id.tag_line);
+//        tag_line.setText("Tag Line: " +currentPerson.getTagline());
+//        TextView about_me = (TextView)findViewById(R.id.about_me);
+//        about_me.setText("About Me: "+currentPerson.getAboutMe());
+//        setProfilePic(personPhotoUrl);
+//        progress_dialog.dismiss();
+//        Toast.makeText(this, "Person information is shown!", Toast.LENGTH_LONG).show();
+
+        TSingleton.setUserName(personName);
+
     }
 
     private void setProfilePic(String profile_pic){

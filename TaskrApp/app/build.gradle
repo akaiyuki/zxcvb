@@ -50,4 +50,5 @@ dependencies {
 
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.wdullaer:materialdatetimepicker:2.3.0'
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
 }

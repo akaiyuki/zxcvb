@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.smartwave.taskr.R;
 import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
@@ -75,7 +76,7 @@ public class TaskDescriptionFragment extends Fragment {
 
 
 
-    private ListView mListView;
+    private ExpandableHeightListView mListView;
     private CommentAdapter commentAdapter;
 
 
@@ -177,9 +178,10 @@ public class TaskDescriptionFragment extends Fragment {
             }
         }
 
-        mListView = (ListView) view.findViewById(R.id.listview);
+        mListView = (ExpandableHeightListView) view.findViewById(R.id.listview);
         commentAdapter = new CommentAdapter(getActivity(), R.layout.custom_row_comment, mResultComment);
         mListView.setAdapter(commentAdapter);
+        mListView.setExpanded(true);
 
 
 
@@ -316,7 +318,7 @@ public class TaskDescriptionFragment extends Fragment {
 
 
                     final DBComment db = new DBComment(getActivity());
-                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditText.getText().toString(), "Trisha", formattedDate));
+                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditText.getText().toString(), TSingleton.getUserName(), formattedDate));
 
                     final List<CommentObject> tasks = db.getAllTask();
 

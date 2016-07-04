@@ -19,8 +19,8 @@
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/tasklogo"
         android:text=""
-        android:textColor="@color/colorPrimary"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtdate"
@@ -30,8 +30,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:text=""
-        android:textColor="@color/colorPrimary"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:textStyle="italic"/>
 
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/tasklogo"
         android:text=""
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorTextLightGray"
         android:textSize="16sp" />
 
 

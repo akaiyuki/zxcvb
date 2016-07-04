@@ -14,6 +14,15 @@ public class TSingleton {
     public static String taskId;
     public static String taskDate;
     public static String taskEstimate;
+    public static String userName;
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        TSingleton.userName = userName;
+    }
 
     public static String getTaskEstimate() {
         return taskEstimate;

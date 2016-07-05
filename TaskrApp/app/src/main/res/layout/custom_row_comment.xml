@@ -6,17 +6,18 @@
 
     <ImageView
         android:id="@+id/tasklogo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:padding="10dp"
-        android:src="@drawable/taskerlogo" />
+        android:src="@drawable/taskerlogo"
+        android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/txtname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/tasklogo"
         android:text=""
         android:textSize="13sp"
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:text=""
         android:textSize="13sp"
         android:textStyle="italic"/>

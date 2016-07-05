@@ -290,7 +290,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             style="@style/MenuButtonsSmall"
-            fab:fab_label="Add Comment"/>
+            fab:fab_label="Add Comment"
+            android:visibility="gone"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 

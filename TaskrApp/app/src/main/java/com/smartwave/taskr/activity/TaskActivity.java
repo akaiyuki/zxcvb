@@ -109,6 +109,7 @@ public class TaskActivity extends BaseActivity implements GoogleApiClient.OnConn
 //                TSingleton.setLogoutGmail("1");
 
                 db.removeAll();
+                SharedPreferencesCore.clearAllPreferences();
 
                 startActivity(new Intent(TaskActivity.this, LoginActivity.class));
                 finish();

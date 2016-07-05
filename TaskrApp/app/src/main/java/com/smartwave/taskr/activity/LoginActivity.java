@@ -23,9 +23,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.model.people.Person;
+import com.smartwave.taskr.core.AppController;
 import com.smartwave.taskr.core.BaseActivity;
 import com.smartwave.taskr.core.DBHandler;
 import com.smartwave.taskr.core.Engine;
+import com.smartwave.taskr.core.SharedPreferencesCore;
 import com.smartwave.taskr.core.TSingleton;
 import com.smartwave.taskr.fragment.LoginFragment;
 import com.smartwave.taskr.R;
@@ -364,6 +366,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 //        Toast.makeText(this, "Person information is shown!", Toast.LENGTH_LONG).show();
 
         TSingleton.setUserName(personName);
+        SharedPreferencesCore.setSomeStringValue(AppController.getInstance(),"username",personName);
 
     }
 

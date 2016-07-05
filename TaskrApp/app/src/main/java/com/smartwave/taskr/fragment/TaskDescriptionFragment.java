@@ -435,7 +435,7 @@ public class TaskDescriptionFragment extends Fragment {
 
             if (TSingleton.getTaskId().equalsIgnoreCase(comment.getTaskId())){
                 holder.name.setText(comment.getTaskComment());
-                holder.txtCommentName.setText(comment.getTaskName());
+                holder.txtCommentName.setText(SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"username"));
                 holder.txtDate.setText(comment.getCommentDate());
             }
             else {

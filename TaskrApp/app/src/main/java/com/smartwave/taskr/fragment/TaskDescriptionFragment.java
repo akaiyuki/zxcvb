@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,6 +79,8 @@ public class TaskDescriptionFragment extends Fragment {
 
     private ExpandableHeightListView mListView;
     private CommentAdapter commentAdapter;
+    private EditText mEditComment;
+    private Button mButtonComment;
 
 
     public TaskDescriptionFragment() {
@@ -183,6 +186,50 @@ public class TaskDescriptionFragment extends Fragment {
         mListView.setAdapter(commentAdapter);
         mListView.setExpanded(true);
 
+        mEditComment = (EditText) view.findViewById(R.id.editcomment);
+        mButtonComment = (Button) view.findViewById(R.id.buttoncomment);
+
+        mButtonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mEditComment.getText().length() != 0){
+
+                    Calendar c = Calendar.getInstance();
+
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                    String formattedDate = df.format(c.getTime());
+
+
+                    final DBComment db = new DBComment(getActivity());
+                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditComment.getText().toString(), TSingleton.getUserName(), formattedDate));
+
+                    final List<CommentObject> tasks = db.getAllTask();
+
+                    mResultComment.clear();
+
+                    for (CommentObject taskObject : tasks) {
+                        String log = "Id: " + taskObject.getTaskId() + " ,CommentName: " + taskObject.getTaskComment();
+                        // Writing shops  to log
+                        Log.d("Comment from add edit: ", log);
+
+                        if (TSingleton.getTaskId().equalsIgnoreCase(taskObject.getTaskId())){
+                            mResultComment.add(taskObject);
+                        }
+
+                    }
+
+                    commentAdapter = new CommentAdapter(getActivity(), R.layout.custom_row_comment, mResultComment);
+                    commentAdapter.notifyDataSetChanged();
+                    mListView.setAdapter(commentAdapter);
+
+                    mEditComment.setText("");
+
+
+                }
+
+            }
+        });
 
 
         return view;

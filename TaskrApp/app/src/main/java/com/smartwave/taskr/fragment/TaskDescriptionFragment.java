@@ -202,7 +202,8 @@ public class TaskDescriptionFragment extends Fragment {
 
 
                     final DBComment db = new DBComment(getActivity());
-                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditComment.getText().toString(), TSingleton.getUserName(), formattedDate));
+                    db.addTask(new CommentObject(TSingleton.getTaskId(), mEditComment.getText().toString(),
+                            SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"username"), formattedDate));
 
                     final List<CommentObject> tasks = db.getAllTask();
 
@@ -435,7 +436,7 @@ public class TaskDescriptionFragment extends Fragment {
 
             if (TSingleton.getTaskId().equalsIgnoreCase(comment.getTaskId())){
                 holder.name.setText(comment.getTaskComment());
-                holder.txtCommentName.setText(SharedPreferencesCore.getSomeStringValue(AppController.getInstance(),"username"));
+                holder.txtCommentName.setText(comment.getTaskName());
                 holder.txtDate.setText(comment.getCommentDate());
             }
             else {
